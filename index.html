@@ -2,56 +2,104 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Shop của Demi Chen</title>
+  <title>Tiệm của Chen</title>
   <style>
     body { font-family: Arial; margin: 0; background: #f5f5f5; }
     header { background: #ff6b81; color: white; padding: 15px; text-align: center; }
+    header img { width: 40px; vertical-align: middle; margin-right: 10px; }
     .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
     .product { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
     .product img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
     .product h3 { margin: 10px 0; }
     .product button { background: #ff6b81; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
-    .cart { position: fixed; right: 20px; top: 20px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    .cart { position: fixed; right: 20px; top: 20px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor:pointer }
+    .checkout { margin: 20px; text-align: center; }
+    .checkout button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🛍️ Shop của Demi Chen</h1>
+  <h1>🛍️ Tiệm của Chen</h1>
 </header>
 
-<div class="cart">
+<div class="cart" onclick="viewCart()">
   🛒 Giỏ hàng: <span id="cart-count">0</span>
 </div>
 
 <div class="container">
+
   <div class="product">
-    <img src="https://via.placeholder.com/200" alt="">
-    <h3>Sản phẩm 1</h3>
-    <p>100.000đ</p>
-    <button onclick="addToCart()">Mua</button>
+    <img src="https://via.placeholder.com/200">
+    <h3>Sổ tay dễ thương</h3>
+    <p>99000đ</p>
+    <button onclick="addToCart('Sổ tay dễ thương', 99000)">Thêm vào giỏ</button>
   </div>
 
   <div class="product">
-    <img src="https://via.placeholder.com/200" alt="">
-    <h3>Sản phẩm 2</h3>
-    <p>150.000đ</p>
-    <button onclick="addToCart()">Mua</button>
+    <img src="https://via.placeholder.com/200">
+    <h3>Sổ tay planner</h3>
+    <p>129000đ</p>
+    <button onclick="addToCart('Sổ tay planner', 129000)">Thêm vào giỏ</button>
   </div>
 
   <div class="product">
-    <img src="https://via.placeholder.com/200" alt="">
-    <h3>Sản phẩm 3</h3>
-    <p>200.000đ</p>
-    <button onclick="addToCart()">Mua</button>
+    <img src="https://via.placeholder.com/200">
+    <h3>Sổ tay ghi chép minimal</h3>
+    <p>149000đ</p>
+    <button onclick="addToCart('Sổ tay ghi chép minimal', 149000)">Thêm vào giỏ</button>
   </div>
+
+</div>
+
+<div class="checkout">
+  <button onclick="checkout()">Thanh toán</button>
 </div>
 
 <script>
-  let count = 0;
-  function addToCart() {
-    count++;
-    document.getElementById('cart-count').innerText = count;
+  let cart = [];
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    document.getElementById('cart-count').innerText = cart.length;
+  }
+
+  function viewCart() {
+    if(cart.length === 0) {
+      alert("Giỏ hàng đang trống");
+      return;
+    }
+
+    let message = "Giỏ hàng của bạn:\n";
+    let total = 0;
+
+    cart.forEach(item => {
+      message += "- " + item.name + " (" + item.price + "đ)\n";
+      total += item.price;
+    });
+
+    message += "Tổng: " + total + "đ";
+
+    alert(message);
+  }
+
+  function checkout() {
+    if(cart.length === 0) {
+      alert("Bạn chưa có sản phẩm nào");
+      return;
+    }
+
+    let total = 0;
+    cart.forEach(item => total += item.price);
+
+    let message = "Vui lòng chuyển khoản:\n\n" +
+      "Ngân hàng: MB Bank\n" +
+      "Số tài khoản: 123456789\n" +
+      "Chủ tài khoản: CHEN\n\n" +
+      "Tổng tiền: " + total + "đ\n\n" +
+      "Sau khi chuyển khoản, vui lòng gửi ủy nhiệm chi qua Zalo: 09xxxxxxxx để được xác nhận đơn hàng.";
+
+    alert(message);
   }
 </script>
 
